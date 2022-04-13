@@ -7,7 +7,8 @@ const Login = () => {
   const userColor = user ? 'bg-green-500' : 'bg-red-600' 
 
   return (
-    <> <div className='container mx-auto grid grid-cols-2 place-content-center min-h-screen w-96 p-4 mb-4'>
+    <> 
+        <div className='container mx-auto grid grid-cols-2 place-content-center min-h-screen w-96 p-4 mb-4'>
           <h1 className='col-span-2 text-center mb-4 bg-cyan-400  text-white'>Login</h1>
           <h2 className={`col-span-2 text-center mb-4 text-white ${userColor} `} >
               {

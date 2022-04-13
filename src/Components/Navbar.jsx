@@ -26,6 +26,7 @@ const Navbar = () => {
                                 }
                             </li>
                         </ul>
+                        <NavLink to='/Usuario'className='ml-2 border-2 px-2 hover:bg-cyan-700'>Usuario</NavLink>
                         <NavLink to='/Login'className='ml-2 border-2 px-2 hover:bg-cyan-700'>Login</NavLink>
                         <NavLink to='/Home' className='ml-2 border-2 px-2 hover:bg-cyan-700 active:bg-cyan-800'>Home</NavLink> 
                     </div>
