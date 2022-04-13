@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <>
                 <div className='p-2 bg-cyan-500 flex justify-between text-white'>
-                    <Link to='/' className='ml-2 border-2 px-2 hover:bg-cyan-700'>Inicio</Link>
+                    <Link to='/' className='ml-2 border-2 px-2 hover:bg-cyan-700'>Home</Link>
                     <div className='flex justify-self-end items-center'>
                         <ul className='flex flex-wrap cursor-pointer'onClick={()=>{toggleUser()}}>
                             <li className={`border-2 rounded-full w-4 h-4 self-center ${userColor} `} ></li>
@@ -27,8 +27,8 @@ const Navbar = () => {
                             </li>
                         </ul>
                         <NavLink to='/Usuario'className='ml-2 border-2 px-2 hover:bg-cyan-700'>Usuario</NavLink>
-                        <NavLink to='/Login'className='ml-2 border-2 px-2 hover:bg-cyan-700'>Login</NavLink>
-                        <NavLink to='/Home' className='ml-2 border-2 px-2 hover:bg-cyan-700 active:bg-cyan-800'>Home</NavLink> 
+                        <NavLink to='/Login'className='ml-2 border-2 px-2 hover:bg-cyan-700'>Ingresar</NavLink>
+                        <NavLink to='/Register' className='ml-2 border-2 px-2 hover:bg-cyan-700 active:bg-cyan-800'>Registrar</NavLink> 
                     </div>
                 </div>
     </>
