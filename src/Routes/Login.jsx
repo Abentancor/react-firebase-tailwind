@@ -6,7 +6,7 @@ const Login = () => {
 
   const {loginUser, user} = useContext(UserContext)
   const userColor = user ? 'bg-green-500' : 'bg-red-600' 
-  const [email, setEmail] = useState('bluuweb1@gmail.com')
+  const [email, setEmail] = useState('Angel01@test.com')
   const [password, setPassword] = useState('123123')
 
  
