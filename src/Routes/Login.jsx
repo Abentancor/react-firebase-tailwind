@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context/UserProvider'
 
 const Login = () => {
@@ -9,13 +10,14 @@ const Login = () => {
   const [email, setEmail] = useState('Angel01@test.com')
   const [password, setPassword] = useState('123123')
 
- 
+   const navegate = useNavigate()
 
   const handleSubmit  = async (e) => {
       e.preventDefault()
       console.log('Usuario logueado')
       try {
           await loginUser(email, password)
+          navegate('/Usuario')
       } catch (error) {
           console.log(error.code)
 

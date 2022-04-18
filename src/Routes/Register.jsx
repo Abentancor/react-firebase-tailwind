@@ -1,3 +1,4 @@
+import { async } from '@firebase/util'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -10,8 +11,26 @@ const Register = () => {
     const {registerUser} = useContext(UserContext)
         const navegate = useNavigate()
 
-    const {register, handleSubmit, getValues, formState:{errors}}= useForm()
-    const onSubmit = data => console.log(data)
+    const {register, handleSubmit, getValues, formState:{errors}, setError}= useForm()
+
+    const onSubmit = async (data) => {
+  
+        try {
+            await registerUser(data.email, data.password)
+            navegate('/')
+        } catch (error) {
+            console.log(error.code)
+            switch(error.code){
+                case 'auth/email-already-in-use':
+                    setError('email',{
+                        message: 'Usuario ya registrado'
+                    })
+                    break
+                default: 
+                    console.log('Intentelo de nuevo mas tarde')
+            }
+        }
+    }
 
 
 
@@ -52,11 +71,24 @@ const Register = () => {
                 <input className='bg-cyan-400 font-semibold px-2'
                     type="password"
                     placeholder='ingrese password' 
-                    {...register('password', 
-                        {minLength: {
+                    {...register('password', {
+                        required: {
+                            value:true,
+                            message:'Campo Obligatorio'
+                        },
+                        minLength: {
                             value: 6, 
                             message: 'el minimo es de 6 caracteres'
-                    }})}
+                        },
+                        validate:{
+                            trim: (v) => {
+                                if (!v.trim()){ 
+                                    return 'Escribe algo' 
+                                }
+                                return true;
+                         }
+                        }
+                })}
                     
                 />
                     {
@@ -67,9 +99,12 @@ const Register = () => {
                     type="password"
                     placeholder='Re-ingrese password' 
                     {...register('repassword', {
+                        required: {
+                            value:true,
+                            message:'Campo Obligatorio'
+                        },
                         validate: {
                             equals: (v) => v === getValues('password') || 'Las contraseñas no coinciden',
-                            //message: 'Las contraseñas no coinciden',
                         }
                     })}
                 />
