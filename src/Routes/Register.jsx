@@ -1,8 +1,10 @@
-import { async } from '@firebase/util'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context/UserProvider'
+import { erroresFirebase } from '../Utils/erroresFirebase'
+
+import FormErrors from '../Components/FormErrors'
 
 const Register = () => {
 
@@ -19,16 +21,9 @@ const Register = () => {
             await registerUser(data.email, data.password)
             navegate('/')
         } catch (error) {
-            console.log(error.code)
-            switch(error.code){
-                case 'auth/email-already-in-use':
-                    setError('email',{
-                        message: 'Usuario ya registrado'
-                    })
-                    break
-                default: 
-                    console.log('Intentelo de nuevo mas tarde')
-            }
+            setError('firebase',{
+                message: erroresFirebase(error.code)
+            })
         }
     }
 
@@ -48,6 +43,7 @@ const Register = () => {
     <>
     <div className='container mx-auto grid grid-cols-2 text-white place-content-center min-h-screen w-1/2 p-4 mb-4 gap-2'>
             <h1 className='col-span-2 bg-cyan-500 font-bold text-center'>Registro</h1>
+            <FormErrors error={errors.firebase}/>
             <form className=' grid overflow-hidden gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
                 <label className='text-cyan-500' >E-mail</label>
                 <input className='bg-cyan-400 font-semibold px-2'
@@ -64,9 +60,7 @@ const Register = () => {
                         }
                     })}
                 />
-                    {
-                        errors.email && <span className='text-red-600 col-span-2 text-center'>{errors.email.message}</span>
-                    }
+                <FormErrors error={errors.email}/>
                 <label className='text-cyan-500'>Password</label>
                 <input className='bg-cyan-400 font-semibold px-2'
                     type="password"
@@ -91,9 +85,7 @@ const Register = () => {
                 })}
                     
                 />
-                    {
-                        errors.password && <span className='text-red-600 col-span-2 text-center'>{errors.password.message}</span>
-                    }
+                <FormErrors error={errors.password}/>
                 <label className='text-cyan-500'>Re-ingrese su Password</label>
                 <input className='bg-cyan-400 font-semibold px-2'
                     type="password"
@@ -108,9 +100,7 @@ const Register = () => {
                         }
                     })}
                 />
-                    {
-                        errors.repassword && <span className='text-red-600 col-span-2 text-center'>{errors.repassword.message}</span>
-                    }
+                <FormErrors error={errors.repassword}/>
                 <button className='col-span-2 bg-cyan-500' type="submit">Crear Cuenta</button>
             </form>
     </div>
