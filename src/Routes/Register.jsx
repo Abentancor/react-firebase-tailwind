@@ -2,21 +2,22 @@ import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context/UserProvider'
-import { erroresFirebase } from '../Utils/erroresFirebase'
 
+import { erroresFirebase } from '../Utils/erroresFirebase'
+import { formValidate } from '../Utils/formValidate'
 import FormErrors from '../Components/FormErrors'
+import FormInput from '../Components/FormInput'
 
 const Register = () => {
-
-
 
     const {registerUser} = useContext(UserContext)
         const navegate = useNavigate()
 
     const {register, handleSubmit, getValues, formState:{errors}, setError}= useForm()
 
+    const {required, patternEmail, minLength, validateTrim, validateEquals} = formValidate()
+
     const onSubmit = async (data) => {
-  
         try {
             await registerUser(data.email, data.password)
             navegate('/')
@@ -26,19 +27,6 @@ const Register = () => {
             })
         }
     }
-
-
-
-    /*const handleSubmit  = async  (e) => {
-        e.preventDefault()
-        console.log('procesando: ', email, password)
-        try {
-            await registerUser(email, password)
-        } catch (error) {
-            console.log(error.code)
-        }
-    }*/
-
   return (
     <>
     <div className='container mx-auto grid grid-cols-2 text-white place-content-center min-h-screen w-1/2 p-4 mb-4 gap-2'>
@@ -46,61 +34,43 @@ const Register = () => {
             <FormErrors error={errors.firebase}/>
             <form className=' grid overflow-hidden gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
                 <label className='text-cyan-500' >E-mail</label>
-                <input className='bg-cyan-400 font-semibold px-2'
-                    type="email"
-                    placeholder='ingrese Email' 
+                <FormInput
+                    className=''
+                    type='email'
+                    placeholder='ingrese un email'
                     {...register('email', {
-                        required: {
-                            value:true,
-                            message:'Campo Obligatorio'
-                        },
-                        pattern:{
-                            value: /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/,
-                            message: 'Formato de email incorrecto'
-                        }
+                        required,
+                        pattern: patternEmail
                     })}
-                />
+                ></FormInput>
                 <FormErrors error={errors.email}/>
+
                 <label className='text-cyan-500'>Password</label>
-                <input className='bg-cyan-400 font-semibold px-2'
-                    type="password"
-                    placeholder='ingrese password' 
+                <FormInput
+                    className=''
+                    type='password'
+                    placeholder='ingrese su password'
                     {...register('password', {
-                        required: {
-                            value:true,
-                            message:'Campo Obligatorio'
-                        },
-                        minLength: {
-                            value: 6, 
-                            message: 'el minimo es de 6 caracteres'
-                        },
-                        validate:{
-                            trim: (v) => {
-                                if (!v.trim()){ 
-                                    return 'Escribe algo' 
-                                }
-                                return true;
-                         }
-                        }
-                })}
-                    
-                />
+                        required,
+                        minLength,
+                        validate: validateTrim
+                        })}
+                ></FormInput>
                 <FormErrors error={errors.password}/>
+
                 <label className='text-cyan-500'>Re-ingrese su Password</label>
-                <input className='bg-cyan-400 font-semibold px-2'
-                    type="password"
-                    placeholder='Re-ingrese password' 
+
+                <FormInput
+                    className=''
+                    type='password'
+                    placeholder='Reingrese su Password'
                     {...register('repassword', {
-                        required: {
-                            value:true,
-                            message:'Campo Obligatorio'
-                        },
-                        validate: {
-                            equals: (v) => v === getValues('password') || 'Las contraseñas no coinciden',
-                        }
+                        required,
+                        validate: validateEquals(getValues)
                     })}
-                />
+                ></FormInput>
                 <FormErrors error={errors.repassword}/>
+
                 <button className='col-span-2 bg-cyan-500' type="submit">Crear Cuenta</button>
             </form>
     </div>
