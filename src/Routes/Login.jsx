@@ -18,8 +18,6 @@ const Login = () => {
     = useForm()
     const {required, patternEmail, minLength, validateTrim} = formValidate()
 
-  const userColor = user ? 'bg-green-500' : 'bg-red-600' 
-
    const navegate = useNavigate()
 
    const onSubmit = async (data) => {
@@ -35,11 +33,12 @@ const Login = () => {
 
   return (
     <> 
-        <div className='container mx-auto grid grid-cols-2 place-content-center min-h-screen w-96 p-4 mb-4'>
-          <h1 className='col-span-2 text-center mb-4 bg-cyan-400  text-white'>Login</h1>
+        <div className='container mx-auto grid grid-cols-2 text-white place-content-center min-h-screen w-1/2 p-4 gap-2'>
+          <h1 className='col-span-2 text-center bg-cyan-500  text-white'>Login</h1>
 
           <FormErrors error={errors.firebase}/>
-          <form className=' grid overflow-hidden gap-2 col-span-2 text-white' onSubmit={handleSubmit(onSubmit)} >
+          <form className=' grid gap-2 col-span-2 text-white' onSubmit={handleSubmit(onSubmit)} >
+          <label className='text-cyan-500'>Ingrese su Email</label>
           <FormInput
                 className=''
                 type='email'
@@ -50,7 +49,7 @@ const Login = () => {
                 })}
             ></FormInput>
             <FormErrors error={errors.email}/>
-
+            <label className='text-cyan-500'>Ingrese su Password</label>
             <FormInput
                 className=''
                 type='password'
@@ -63,7 +62,7 @@ const Login = () => {
             ></FormInput>
             <FormErrors error={errors.password}/>
 
-                <button className='text-center bg-cyan-500' type="submit">Ingresar</button>
+                <button className='text-center bg-cyan-500 col-span-2' type="submit">Ingresar</button>
             </form>
         </div>
     </>

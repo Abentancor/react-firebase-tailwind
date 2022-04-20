@@ -4,6 +4,10 @@ export const erroresFirebase = (code) => {
             return 'Usuario ya registrado'
         case 'auth/invalid-email':
             return 'Formato de Email Invalido'
+        case 'auth/user-not-found':
+            return 'Usuario no registrado'
+        case 'auth/wrong-password': 
+            return 'Contraseña incorrecta'
         default: 
             return 'Intentelo de nuevo mas tarde'
     }

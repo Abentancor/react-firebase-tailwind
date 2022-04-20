@@ -32,7 +32,7 @@ const Register = () => {
     <div className='container mx-auto grid grid-cols-2 text-white place-content-center min-h-screen w-1/2 p-4 mb-4 gap-2'>
             <h1 className='col-span-2 bg-cyan-500 font-bold text-center'>Registro</h1>
             <FormErrors error={errors.firebase}/>
-            <form className=' grid overflow-hidden gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
+            <form className=' grid  gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
                 <label className='text-cyan-500' >E-mail</label>
                 <FormInput
                     className=''

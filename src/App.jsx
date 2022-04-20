@@ -21,7 +21,7 @@ const App = () => {
       <Navbar/>
       <Routes>
         <Route path="/Login" element={<Login/>}></Route>
-        <Route path="/Home" element={<Home/>}></Route>
+        <Route path="/" element={<Home/>}></Route>
         <Route path="/Register" element={<Register/>}></Route>
         <Route path="/Usuario" element={
           <RequireAuth>
