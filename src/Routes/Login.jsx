@@ -1,15 +1,19 @@
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import FormErrors from '../Components/FormErrors'
 import FormInput from '../Components/FormInput'
 import { UserContext } from '../Context/UserProvider'
 import { erroresFirebase } from '../Utils/erroresFirebase'
 import { formValidate } from '../Utils/formValidate'
+import ButtonLoading from '../Components/ButtonLoading'
 
 const Login = () => {
 
   const {loginUser, user} = useContext(UserContext)
+  const [loading, setLoading] = useState(false)
+
   const {
     register,
     handleSubmit, 
@@ -22,12 +26,14 @@ const Login = () => {
 
    const onSubmit = async (data) => {
     try {
+        setLoading(true)
         await loginUser(data.email, data.password)
         navegate('/')
     } catch (error) {
-        setError('firebase',{
-            message: erroresFirebase(error.code)
-        })
+        const {code, message} = erroresFirebase(error.code)
+        setError(code,{message})
+    }finally{
+        setLoading(false)
     }
 }
 
@@ -38,19 +44,20 @@ const Login = () => {
 
           <FormErrors error={errors.firebase}/>
           <form className=' grid gap-2 col-span-2 text-white' onSubmit={handleSubmit(onSubmit)} >
-          <label className='text-cyan-500'>Ingrese su Email</label>
           <FormInput
+                label='Ingrese su email'
                 className=''
                 type='email'
-                placeholder='ingrese un email'
+                placeholder='ingrese su email'
                 {...register('email', {
                     required,
                     pattern: patternEmail
-                })}
-            ></FormInput>
+                })}>
             <FormErrors error={errors.email}/>
-            <label className='text-cyan-500'>Ingrese su Password</label>
+
+            </FormInput>
             <FormInput
+                label='Ingrese su password'
                 className=''
                 type='password'
                 placeholder='ingrese su password'
@@ -58,11 +65,15 @@ const Login = () => {
                     required,
                     minLength,
                     validate: validateTrim
-                })}
-            ></FormInput>
+                })}>
             <FormErrors error={errors.password}/>
-
-                <button className='text-center bg-cyan-500 col-span-2' type="submit">Ingresar</button>
+            </FormInput>
+                {
+                    loading ? 
+                    <ButtonLoading/>
+                    :
+                    <button className='text-center bg-cyan-500 col-span-2 hover:bg-cyan-700' type="submit">Ingresar</button>
+                }
             </form>
         </div>
     </>

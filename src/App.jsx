@@ -7,6 +7,7 @@ import Home from "./Routes/Home"
 import Login from "./Routes/Login"
 import Register from "./Routes/Register"
 import Usuario from "./Routes/Usuario"
+import NotFound404 from "./Routes/NotFound404"
 
 const App = () => {
 
@@ -23,11 +24,15 @@ const App = () => {
         <Route path="/Login" element={<Login/>}></Route>
         <Route path="/" element={<Home/>}></Route>
         <Route path="/Register" element={<Register/>}></Route>
+
         <Route path="/Usuario" element={
           <RequireAuth>
             <Usuario/>
           </RequireAuth>
         }></Route>
+
+        <Route path="*" element={<NotFound404/>}></Route>
+        
       </Routes>
     </>
   )

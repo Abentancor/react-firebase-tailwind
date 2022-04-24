@@ -7,11 +7,15 @@ import { erroresFirebase } from '../Utils/erroresFirebase'
 import { formValidate } from '../Utils/formValidate'
 import FormErrors from '../Components/FormErrors'
 import FormInput from '../Components/FormInput'
+import ButtonLoading from '../Components/ButtonLoading'
+import { useState } from 'react'
 
 const Register = () => {
 
     const {registerUser} = useContext(UserContext)
         const navegate = useNavigate()
+
+    const [loading, setLoading] = useState(false)
 
     const {register, handleSubmit, getValues, formState:{errors}, setError}= useForm()
 
@@ -19,12 +23,14 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         try {
+            setLoading(true)
             await registerUser(data.email, data.password)
             navegate('/')
         } catch (error) {
-            setError('firebase',{
-                message: erroresFirebase(error.code)
-            })
+            const {code, message} = erroresFirebase(error.code)
+            setError(code,{message})
+        }finally{
+            setLoading(false)
         }
     }
   return (
@@ -33,8 +39,8 @@ const Register = () => {
             <h1 className='col-span-2 bg-cyan-500 font-bold text-center'>Registro</h1>
             <FormErrors error={errors.firebase}/>
             <form className=' grid  gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
-                <label className='text-cyan-500' >E-mail</label>
                 <FormInput
+                    label='Email'
                     className=''
                     type='email'
                     placeholder='ingrese un email'
@@ -45,8 +51,8 @@ const Register = () => {
                 ></FormInput>
                 <FormErrors error={errors.email}/>
 
-                <label className='text-cyan-500'>Password</label>
                 <FormInput
+                    label='Password'
                     className=''
                     type='password'
                     placeholder='ingrese su password'
@@ -58,20 +64,23 @@ const Register = () => {
                 ></FormInput>
                 <FormErrors error={errors.password}/>
 
-                <label className='text-cyan-500'>Re-ingrese su Password</label>
-
                 <FormInput
+                    label='re-ingrese su Password'
                     className=''
                     type='password'
                     placeholder='Reingrese su Password'
                     {...register('repassword', {
                         required,
-                        validate: validateEquals(getValues)
+                        validate: validateEquals(getValues('password'))
                     })}
                 ></FormInput>
                 <FormErrors error={errors.repassword}/>
-
-                <button className='col-span-2 bg-cyan-500' type="submit">Crear Cuenta</button>
+                {
+                    loading ? 
+                    <ButtonLoading/>
+                    :
+                    <button className='text-center bg-cyan-500 col-span-2 hover:bg-cyan-700' type="submit">Crear cuenta</button>
+                }
             </form>
     </div>
     </>
