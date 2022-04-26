@@ -7,8 +7,9 @@ import { erroresFirebase } from '../Utils/erroresFirebase'
 import { formValidate } from '../Utils/formValidate'
 import FormErrors from '../Components/FormErrors'
 import FormInput from '../Components/FormInput'
-import ButtonLoading from '../Components/ButtonLoading'
+
 import { useState } from 'react'
+import Button from '../Components/Button'
 
 const Register = () => {
 
@@ -75,12 +76,12 @@ const Register = () => {
                     })}
                 ></FormInput>
                 <FormErrors error={errors.repassword}/>
-                {
-                    loading ? 
-                    <ButtonLoading/>
-                    :
-                    <button className='text-center bg-cyan-500 col-span-2 hover:bg-cyan-700' type="submit">Crear cuenta</button>
-                }
+                <Button
+                    type='submit'
+                    color='cyan'
+                    text='Crear cuenta'
+                    loading={loading.addData}
+                />
             </form>
     </div>
     </>

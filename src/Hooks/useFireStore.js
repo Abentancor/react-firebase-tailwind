@@ -1,8 +1,7 @@
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore/lite"
+import { collection, deleteDoc, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore/lite"
 import { useState } from "react"
 import {db, auth} from '../firebase'
 import { nanoid } from "nanoid"
-import PreviousMap from "postcss/lib/previous-map"
 
 export const useFireStore = () => { 
 
@@ -32,7 +31,7 @@ export const useFireStore = () => {
 
     const addData = async(url)=>{
         try {
-            setLoading(previo => ({...previo, addData:true}));
+            setLoading(prev => ({...prev, addData:true}));
             const newDoc = {
                 enabled: true,
                 nanoid:nanoid(6),
@@ -50,7 +49,35 @@ export const useFireStore = () => {
         }
     }
 
+    const deleteData = async(nanoid)=>{
+        try {
+            setLoading((prev) => ({...prev, [nanoid]:true}));
+            const docRef= doc(db, 'Urls', nanoid)
+            await deleteDoc(docRef)
+            setData(data.filter((item) => item.nanoid !== nanoid))
+            
+        } catch (error) {
+            setError(error.message);
+        }finally{
+            setLoading(prev => ({...prev, [nanoid]:false}));
+        }
+    }
+
+    const updateData= async(nanoid, newOrigin) =>{
+        try {
+            setLoading((prev) => ({...prev, updateData:true}));
+            const docRef= doc(db, 'Urls', nanoid)
+            await updateDoc(docRef, {origin: newOrigin})
+            setData(data.filter((item) => item.nanoid !== nanoid)) 
+        } catch (error) {
+            setError(error.message);
+        } finally{
+            setLoading(prev => ({...prev, updateData:false}));
+        }}
+
+
+
     return{
-        data, error, loading, getData, addData
+        data, error, loading, getData, addData, deleteData, updateData
     }
  }

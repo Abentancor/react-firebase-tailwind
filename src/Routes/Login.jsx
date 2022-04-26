@@ -8,6 +8,7 @@ import { UserContext } from '../Context/UserProvider'
 import { erroresFirebase } from '../Utils/erroresFirebase'
 import { formValidate } from '../Utils/formValidate'
 import ButtonLoading from '../Components/ButtonLoading'
+import Button from '../Components/Button'
 
 const Login = () => {
 
@@ -68,12 +69,12 @@ const Login = () => {
                 })}>
             <FormErrors error={errors.password}/>
             </FormInput>
-                {
-                    loading ? 
-                    <ButtonLoading/>
-                    :
-                    <button className='text-center bg-cyan-500 col-span-2 hover:bg-cyan-700' type="submit">Ingresar</button>
-                }
+            <Button
+              type='submit'
+              color='cyan'
+              text='Ingresar'
+              loading={loading.addData}
+            />
             </form>
         </div>
     </>

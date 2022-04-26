@@ -1,11 +1,12 @@
-import React from 'react'
 import { useEffect, useState } from 'react'
-import ButtonLoading from '../Components/ButtonLoading'
 import { useFireStore } from '../Hooks/useFireStore'
+
+import Button from '../Components/Button'
+
 
 const Home = () => {
 
-   const {data, error, loading, getData, addData} = useFireStore()
+   const {data, error, loading, getData, addData, deleteData, updateData} = useFireStore()
    const [text, setText] = useState('')
    
    useEffect(()=>{
@@ -22,6 +23,16 @@ const Home = () => {
       await addData(text)
       setText('')
     }
+
+    const handleClickDelete = async(nanoid) =>{
+      console.log('click delete')
+      await deleteData(nanoid)
+    }
+    const handleClickEdit = (item) => {
+      console.log('clickEdit')
+      setText(item.origin)
+    }
+
     
   return (
     <>
@@ -34,14 +45,12 @@ const Home = () => {
             value={text}
             onChange={e => setText(e.target.value)} 
           />
-          {
-            loading ? 
-            <ButtonLoading/>:
-            <button 
-            type='submit' 
-            >Agregar link
-          </button>
-          }
+            <Button
+              type='submit'
+              text='Agregar url'
+              color="cyan"
+              loading={loading.addData}
+            />
         </form>
 
 
@@ -50,6 +59,19 @@ const Home = () => {
             <div className='bg-slate-300' key={item.nanoid}>
               <p className=''>{item.nanoid}</p>
               <p className='mb-2'>{item.origin}</p>
+              <Button
+                type='button'
+                text='eliminar url'
+                color="bg-red-600"
+                loading={loading[item.nanoid]}
+                onClick={() => handleClickDelete(item.nanoid)}
+              />
+              <Button
+                type='button'
+                text='Editar url'
+                color="bg-yellow-500"
+                onClick={() => handleClickEdit(item)}
+              />
             </div>
           ))
         }
