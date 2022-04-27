@@ -8,6 +8,7 @@ const Home = () => {
 
    const {data, error, loading, getData, addData, deleteData, updateData} = useFireStore()
    const [text, setText] = useState('')
+   const [newOriginID, setNewOriginID] = useState()
    
    useEffect(()=>{
      getData()
@@ -19,6 +20,14 @@ const Home = () => {
     
     const handleSubmit = async (e) =>{
       e.preventDefault()
+
+      if(newOriginID){
+        await updateData(newOriginID, text)
+        setNewOriginID('')
+        setText('')
+        return 
+      }
+
       console.log(text)
       await addData(text)
       setText('')
@@ -31,6 +40,7 @@ const Home = () => {
     const handleClickEdit = (item) => {
       console.log('clickEdit')
       setText(item.origin)
+      setNewOriginID(item.nanoid)
     }
 
     
@@ -45,12 +55,23 @@ const Home = () => {
             value={text}
             onChange={e => setText(e.target.value)} 
           />
-            <Button
+          {
+            newOriginID ? (
+              <Button
               type='submit'
-              text='Agregar url'
-              color="cyan"
-              loading={loading.addData}
+              text='Editar url'
+              color="bg-yellow-500"
+              loading={loading.updateData}
             />
+            ) : (
+              <Button
+                type='submit'
+                text='Editar url'
+                color="bg-cyan-500"
+                loading={loading.addData}
+              />
+            )
+          }
         </form>
 
 
@@ -68,7 +89,7 @@ const Home = () => {
               />
               <Button
                 type='button'
-                text='Editar url'
+                text='Editar'
                 color="bg-yellow-500"
                 onClick={() => handleClickEdit(item)}
               />

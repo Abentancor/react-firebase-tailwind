@@ -69,6 +69,7 @@ export const useFireStore = () => {
             const docRef= doc(db, 'Urls', nanoid)
             await updateDoc(docRef, {origin: newOrigin})
             setData(data.filter((item) => item.nanoid !== nanoid)) 
+            setData(data.map(item => item.nanoid === nanoid ?({...item, origin:newOrigin}) : (item)))
         } catch (error) {
             setError(error.message);
         } finally{
