@@ -14,18 +14,22 @@ import Button from '../Components/Button'
 const Register = () => {
 
     const {registerUser} = useContext(UserContext)
-        const navegate = useNavigate()
-
+    const navegate = useNavigate()
     const [loading, setLoading] = useState(false)
-
-    const {register, handleSubmit, getValues, formState:{errors}, setError}= useForm()
-
+    
     const {required, patternEmail, minLength, validateTrim, validateEquals} = formValidate()
+    const {
+        register, 
+        handleSubmit, 
+        getValues, 
+        formState:{errors}, 
+        setError} = useForm()
 
-    const onSubmit = async (data) => {
+
+    const onSubmit = async (email, password) => {
         try {
             setLoading(true)
-            await registerUser(data.email, data.password)
+            await registerUser(email, password)
             navegate('/')
         } catch (error) {
             const {code, message} = erroresFirebase(error.code)
@@ -40,17 +44,17 @@ const Register = () => {
             <h1 className='col-span-2 bg-cyan-500 font-bold text-center'>Registro</h1>
             <FormErrors error={errors.firebase}/>
             <form className=' grid  gap-2 col-span-2' onSubmit={handleSubmit(onSubmit)} >
-                <FormInput
-                    label='Email'
-                    className=''
-                    type='email'
-                    placeholder='ingrese un email'
-                    {...register('email', {
-                        required,
-                        pattern: patternEmail
-                    })}
-                ></FormInput>
-                <FormErrors error={errors.email}/>
+            <FormInput
+                label='Ingrese su email'
+                className=''
+                type='email'
+                placeholder='ingrese su email'
+                {...register('email', {
+                    required,
+                    pattern: patternEmail
+                })}>
+            <FormErrors error={errors.email}/>
+            </FormInput>
 
                 <FormInput
                     label='Password'
@@ -65,23 +69,24 @@ const Register = () => {
                 ></FormInput>
                 <FormErrors error={errors.password}/>
 
-                <FormInput
-                    label='re-ingrese su Password'
-                    className=''
-                    type='password'
-                    placeholder='Reingrese su Password'
-                    {...register('repassword', {
-                        required,
-                        validate: validateEquals(getValues('password'))
-                    })}
-                ></FormInput>
-                <FormErrors error={errors.repassword}/>
-                <Button
-                    type='submit'
-                    color='cyan'
-                    text='Crear cuenta'
-                    loading={loading.addData}
-                />
+            <FormInput
+                label='Ingrese su password'
+                className=''
+                type='password'
+                placeholder='ingrese su password'
+                {...register('password', {
+                    required,
+                    minLength,
+                    validate: validateTrim
+                })}>
+            <FormErrors error={errors.password}/>
+            </FormInput>
+            <Button
+              type='submit'
+              color='bg-cyan-500'
+              text='Ingresar'
+              loading={loading.addData}
+            />
             </form>
     </div>
     </>

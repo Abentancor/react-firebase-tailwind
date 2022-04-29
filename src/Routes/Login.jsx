@@ -7,7 +7,6 @@ import FormInput from '../Components/FormInput'
 import { UserContext } from '../Context/UserProvider'
 import { erroresFirebase } from '../Utils/erroresFirebase'
 import { formValidate } from '../Utils/formValidate'
-import ButtonLoading from '../Components/ButtonLoading'
 import Button from '../Components/Button'
 
 const Login = () => {
@@ -31,6 +30,7 @@ const Login = () => {
         await loginUser(data.email, data.password)
         navegate('/')
     } catch (error) {
+      console.log(error)
         const {code, message} = erroresFirebase(error.code)
         setError(code,{message})
     }finally{
@@ -41,8 +41,7 @@ const Login = () => {
   return (
     <> 
         <div className='container mx-auto grid grid-cols-2 text-white place-content-center min-h-screen w-1/2 p-4 gap-2'>
-          <h1 className='col-span-2 text-center bg-cyan-500  text-white'>Login</h1>
-
+          <h1 className='col-span-2 text-center bg-cyan-500  text-white'>Ingresar</h1>
           <FormErrors error={errors.firebase}/>
           <form className=' grid gap-2 col-span-2 text-white' onSubmit={handleSubmit(onSubmit)} >
           <FormInput
@@ -50,6 +49,7 @@ const Login = () => {
                 className=''
                 type='email'
                 placeholder='ingrese su email'
+                error={errors.email}
                 {...register('email', {
                     required,
                     pattern: patternEmail
@@ -62,16 +62,18 @@ const Login = () => {
                 className=''
                 type='password'
                 placeholder='ingrese su password'
+                error={errors.password}
                 {...register('password', {
                     required,
                     minLength,
                     validate: validateTrim
                 })}>
             <FormErrors error={errors.password}/>
+            
             </FormInput>
             <Button
               type='submit'
-              color='cyan'
+              color='bg-cyan-500'
               text='Ingresar'
               loading={loading.addData}
             />

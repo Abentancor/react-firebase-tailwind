@@ -1,12 +1,12 @@
 import { forwardRef } from "react"
 
-const FormInput = forwardRef(({type, placeholder, onChange, onBlur, name, label}, ref,) => {
+const FormInput = forwardRef(({type, placeholder, onChange, onBlur, name, label,clase }, ref,) => {
 
   return (
     <>
          <label className='text-cyan-500'>{label}</label>
         <input 
-            className="bg-cyan-400 font-semibold px-2 "
+            className={`${clase} bg-cyan-400 font-semibold  px-2 `}
             type={type} 
             placeholder={placeholder} 
             ref={ref} 

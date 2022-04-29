@@ -3,11 +3,13 @@ import { useContext } from "react"
 import Navbar from "./Components/Navbar"
 import RequireAuth from "./Components/RequireAuth"
 import { UserContext } from "./Context/UserProvider"
+
 import Home from "./Routes/Home"
 import Login from "./Routes/Login"
-import Register from "./Routes/Register"
 import Usuario from "./Routes/Usuario"
+import Register from "./Routes/Register"
 import NotFound404 from "./Routes/NotFound404"
+import LayoutRedirect from "./Components/LayoutRedirect"
 
 const App = () => {
 
@@ -31,7 +33,10 @@ const App = () => {
           </RequireAuth>
         }></Route>
 
-        <Route path="*" element={<NotFound404/>}></Route>
+        <Route path="/:nanoid" element={<LayoutRedirect/>}>
+          <Route index element={<NotFound404/>}></Route>
+
+        </Route>
         
       </Routes>
     </>
