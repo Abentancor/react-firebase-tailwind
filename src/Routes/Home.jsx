@@ -69,7 +69,8 @@ const Home = () => {
     
   return (
     <>
-        <h1>Home</h1>
+        <h1 className='text-8xl text-slate-900 mx-auto text-center mb-4 font-semibold'>Home</h1>
+        <p className='text-2xl text-slate-500 mx-auto text-center mb-4 font-semibold'>ShortURLS</p>
 
         <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput

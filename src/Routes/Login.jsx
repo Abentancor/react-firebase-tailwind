@@ -73,7 +73,7 @@ const Login = () => {
             </FormInput>
             <Button
               type='submit'
-              color='bg-cyan-500'
+              color='bg-cyan-500 hover:bg-cyan-700'
               text='Ingresar'
               loading={loading.addData}
             />

@@ -70,20 +70,21 @@ const Register = () => {
                 <FormErrors error={errors.password}/>
 
             <FormInput
-                label='Ingrese su password'
+                label='Reingrese su password'
                 className=''
                 type='password'
-                placeholder='ingrese su password'
+                placeholder='Reingrese su password'
                 {...register('password', {
                     required,
                     minLength,
-                    validate: validateTrim
+                    validate: validateTrim,
+                    validateEquals
                 })}>
             <FormErrors error={errors.password}/>
             </FormInput>
             <Button
               type='submit'
-              color='bg-cyan-500'
+              color='bg-cyan-500 hover:bg-cyan-700 span-2'
               text='Ingresar'
               loading={loading.addData}
             />

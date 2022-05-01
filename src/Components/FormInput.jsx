@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 
-const FormInput = forwardRef(({type, placeholder, onChange, onBlur, name, label,clase }, ref,) => {
+const FormInput = forwardRef(({type, placeholder, onChange, onBlur, name, label,clase, children }, ref,) => {
 
   return (
     <>
@@ -14,6 +14,7 @@ const FormInput = forwardRef(({type, placeholder, onChange, onBlur, name, label,
             onBlur={onBlur} 
             name={name}
         />
+        {children}
     </>
   )
 })
